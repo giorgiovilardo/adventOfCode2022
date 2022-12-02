@@ -29,6 +29,8 @@ final case class Day1() {
           unfolder(totalAcc, chunkAcc.appended(h.toInt), t)
         case h :: t if h == "" && chunkAcc.nonEmpty =>
           unfolder(totalAcc.appended(chunkAcc), List(), t)
+        case h :: t if h == "" && chunkAcc.isEmpty =>
+          unfolder(totalAcc, List(), t)
         case Nil => totalAcc
         case _ => totalAcc
       }
