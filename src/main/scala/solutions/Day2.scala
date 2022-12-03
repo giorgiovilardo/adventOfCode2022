@@ -1,4 +1,4 @@
-package day2
+package solutions
 
 sealed trait RPSOutcome {
   def toPointValue: Int = this match {
