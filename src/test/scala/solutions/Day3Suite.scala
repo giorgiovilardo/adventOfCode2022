@@ -9,12 +9,12 @@ final class Day3Suite extends AnyFunSuite {
 
   test("Test implementation of part 1 done") {
     val file = Utils.readFileAsIterator(testData)
-    assert(file.nonEmpty)
+    assert(Day3.sumNumericPrioritiesOfSharedItems(file) == 157)
   }
 
   test("Real implementation of part 1 done") {
     val file = Utils.readFileAsIterator(realData)
-    assert(file.nonEmpty)
+    assert(Day3.sumNumericPrioritiesOfSharedItems(file) == 7967)
   }
 
   test("Test implementation of part 2 done") {

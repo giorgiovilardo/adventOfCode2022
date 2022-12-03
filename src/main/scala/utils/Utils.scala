@@ -7,4 +7,6 @@ case object Utils {
     Source.fromResource(path).getLines().mkString("\n")
   def readFileAsIterator(path: String): Iterator[String] =
     Source.fromResource(path).getLines()
+  def readFileAsList(path: String): List[String] =
+    readFileAsString(path).split("\n").toList
 }
