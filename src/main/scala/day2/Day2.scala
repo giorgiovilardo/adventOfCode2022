@@ -80,29 +80,34 @@ final case class Day2() {
   }
 
   def part2PointsFrom(file: Iterator[String]): Int = {
-    val (moves, outcomes) = file.mkString
-      .replace(" ", "")
-      .grouped(2)
-      .map(_.splitAt(1))
-      .toList
-      .unzip(i => (RPSMove.fromString(i._1), RPSOutcome.fromString(i._2)))
+    val (moves, outcomes) = {
+      val (m, o) = file.mkString
+        .replace(" ", "")
+        .grouped(2)
+        .map(_.splitAt(1))
+        .toList
+        .unzip(i => (RPSMove.fromString(i._1), RPSOutcome.fromString(i._2)))
+      (m.flatten, o.flatten)
+    }
 
-    val myMoves = moves.flatten
-      .zip(outcomes.flatten)
+    val myMoves = moves
+      .zip(outcomes)
       .map(i => RPSMove.calculateMoveFromOutcome(i._1, i._2))
 
-    myMoves.map(_.toPointValue).sum + outcomes.flatten.map(_.toPointValue).sum
+    myMoves.map(_.toPointValue).sum + outcomes.map(_.toPointValue).sum
   }
 
-  private def extractRounds(i: Iterator[String]): List[(RPSMove, RPSMove)] = {
+  private def extractRounds(
+      i: Iterator[String]
+  ): List[(RPSMove, RPSMove)] = {
     i.mkString
       .flatMap(c => RPSMove.fromString(c.toString))
       .toList
       .grouped(2)
-      .toList
-      .map {
-        case List(a, b) => (a, b)
-        case _ => (Rock(), Rock())
+      .flatMap {
+        case List(a, b) => Some((a, b))
+        case _ => None
       }
+      .toList
   }
 }
