@@ -15,10 +15,10 @@ scalacOptions ++= Seq(
   "-feature",
   "-unchecked",
   "-Wdead-code",
-  "-Xfatal-warnings",
+//  "-Xfatal-warnings",
   "-Xlint",
   "-Ybackend-parallelism",
   "8"
 )
 
-wartremoverErrors ++= Warts.unsafe
+wartremoverWarnings ++= Warts.unsafe
