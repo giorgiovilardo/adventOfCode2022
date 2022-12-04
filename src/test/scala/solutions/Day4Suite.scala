@@ -19,11 +19,11 @@ final class Day4Suite extends AnyFunSuite {
 
   test("Test implementation of part 2 done") {
     val file = Utils.readFileAsIterator(testData)
-    assert(true)
+    assert(Day4.solvePart2(file) == 4)
   }
 
   test("Real implementation of part 2 done") {
     val file = Utils.readFileAsIterator(realData)
-    assert(true)
+    assert(Day4.solvePart2(file) == 895)
   }
 }
