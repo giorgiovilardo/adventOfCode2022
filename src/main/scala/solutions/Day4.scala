@@ -34,7 +34,7 @@ case object Day4 {
     l.length match {
       case 2 =>
         val (f, s) = (l.take(1).head, l.takeRight(1).head)
-        Some((f intersect s).nonEmpty && (s intersect f).nonEmpty)
+        Some((f intersect s).nonEmpty || (s intersect f).nonEmpty)
       case _ => None
     }
   }
