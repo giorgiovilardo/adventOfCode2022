@@ -51,3 +51,11 @@ s match {
 
 could be extremely powerful and easy. I don't remember where I saw this
 feature!
+
+## Day 5
+
+The record continues. This year the AoC team probably understood that having
+hard walls in the first 3 days is not a good way to go, so it's going nice and slow.
+
+Loving scala so far, everything seems more elegant and my solutions are becoming
+more functional, such a great fold today.

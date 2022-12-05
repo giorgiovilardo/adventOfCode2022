@@ -47,13 +47,23 @@ case object InputParser {
 
 case object Gamestate {
   type Gamestate = List[mutable.Stack[Char]]
-  def move(g: Gamestate, m: Move): Gamestate = {
-    val Move(times, srcStackNumber, destStackNumber) = m
-    val srcStack = g(srcStackNumber - 1)
-    val destStack = g(destStackNumber - 1)
-    for (_ <- 0 until times) {
+  def moveOneAtATime(g: Gamestate, m: Move): Gamestate = {
+    val srcStack = g(m.from - 1)
+    val destStack = g(m.to - 1)
+    for (_ <- 0 until m.qty) {
       destStack.push(srcStack.pop())
     }
+    g
+  }
+
+  def moveAllTogether(g: Gamestate, m: Move): Gamestate = {
+    val srcStack = g(m.from - 1)
+    val destStack = g(m.to - 1)
+    val allBlocksTogether = List.unfold((0, srcStack)) {
+      case (i, s) if i < m.qty => Some((s.pop(), (i + 1, s)))
+      case _ => None
+    }
+    val _ = destStack.pushAll(allBlocksTogether.reverse)
     g
   }
 
@@ -65,13 +75,22 @@ case object Gamestate {
 case object Day5 {
   type Gamestate = List[mutable.Stack[Char]]
   def solvePartOne(i: List[String]): String = {
-    val movelist: List[Move] = InputParser.getMoveList(i)
-    val startingPosition: Gamestate =
-      InputParser.makeStartingPosition(i)
+    solveGeneric(i)(Gamestate.moveOneAtATime)
+  }
+
+  def solvePartTwo(i: List[String]): String = {
+    solveGeneric(i)(Gamestate.moveAllTogether)
+  }
+
+  private def solveGeneric(
+      i: List[String]
+  )(f: (Gamestate, Move) => Gamestate): String = {
+    val (movelist, startingPosition) = getMovesAndGamestate(i)
     Gamestate.extractSolution(
-      movelist.foldLeft(startingPosition)((state: Gamestate, value: Move) =>
-        Gamestate.move(state, value)
-      )
+      movelist.foldLeft(startingPosition)((state, value) => f(state, value))
     )
   }
+
+  private def getMovesAndGamestate(i: List[String]): (List[Move], Gamestate) =
+    (InputParser.getMoveList(i), InputParser.makeStartingPosition(i))
 }

@@ -18,13 +18,13 @@ final class Day5Suite extends AnyFunSuite {
   }
 
   test("Test implementation of part 2 done") {
-//    val file = Utils.readFileAsIterator(testData)
-    assert(true)
+    val file = Utils.readFileAsList(testData)
+    assert(Day5.solvePartTwo(file) == "MCD")
   }
 
   test("Real implementation of part 2 done") {
-//    val file = Utils.readFileAsIterator(realData)
-    assert(true)
+    val file = Utils.readFileAsList(realData)
+    assert(Day5.solvePartTwo(file) == "GCFGLDNJZ")
   }
 }
 
