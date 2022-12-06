@@ -1,10 +1,11 @@
 package solutions
 
-case object Day6 {
-  def solvePart1(s: String): Int = {
-    s
-      .sliding(4)
-      .map(_.toSet)
-      .indexWhere(_.size == 4) + 4
+final case class Day6(input: String) {
+  def solvePart1: Int = solver(4)
+
+  def solvePart2: Int = solver(14)
+
+  private def solver: Int => Int = (i: Int) => {
+    input.sliding(i).map(_.toSet).indexWhere(_.size == i) + i
   }
 }
