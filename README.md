@@ -59,3 +59,23 @@ hard walls in the first 3 days is not a good way to go, so it's going nice and s
 
 Loving scala so far, everything seems more elegant and my solutions are becoming
 more functional, such a great fold today.
+
+## Day 6
+
+Cool problem probably solved in `O(23489234923489234^234894589)` complexity but JVM + M1
+are strong enough :D very simple, so far so fun not hitting walls early!
+
+## Day 7
+
+Had to think a bit about this; it was very hard and I had to take suggestions from other
+code.
+
+I definitely need to be more fluent at trees and stuff.
+
+My first idea of parsing with case objects was actually right, building
+the state tail-recursively is a pain tho. My string solutions failed on folding
+back the sizes correctly.
+
+## Day 8
+
+
