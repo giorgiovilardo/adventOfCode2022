@@ -3,16 +3,16 @@ package solutions
 import scala.annotation.tailrec
 import scala.collection.mutable
 
-sealed trait Command
-final case class Ls() extends Command
-final case class Cd(to: String) extends Command
+private sealed trait Command
+private final case class Ls() extends Command
+private final case class Cd(to: String) extends Command
 
 sealed trait Output
-final case class Cmd(c: Command) extends Output
-final case class Directory(name: String) extends Output
-final case class File(name: String, size: Int) extends Output
+private final case class Cmd(c: Command) extends Output
+private final case class Directory(name: String) extends Output
+private final case class File(name: String, size: Int) extends Output
 
-case object TerminalParser {
+private case object TerminalParser {
   def parse(i: List[String]): List[Output] = {
     i.map {
       case s"$$ cd $dir" => Cmd(Cd(dir))
@@ -23,15 +23,16 @@ case object TerminalParser {
   }
 }
 
-class FSTree(
+private class FSTree(
     val dir: String,
     val children: mutable.Map[String, FSTree],
     val files: mutable.Map[String, Int],
     val parent: FSTree
 ) {
-  override def toString: String = s"FS<$dir, $children, $files>"
+  override def toString: String =
+    s"FS<$dir, ${children.toString()}, ${files.toString()}>"
 }
-object FSTree {
+private object FSTree {
   @tailrec
   def buildFullPath(
       input: List[Output],
@@ -81,7 +82,7 @@ case object Day7 {
     FSTree.listSizes(getState(i), _ < 100000).sum
   }
 
-  def getState(i: List[String]): FSTree = {
+  private def getState(i: List[String]): FSTree = {
     val startingPosition =
       new FSTree("/", mutable.Map.empty, mutable.Map.empty, null)
     FSTree.buildFullPath(

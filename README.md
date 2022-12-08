@@ -78,4 +78,8 @@ back the sizes correctly.
 
 ## Day 8
 
+Wow today was super cool and I had a good idea for the algorithm. It just 
+took me a lot of time to implement it. I got lost into the folds and the special cases
+but in the end it all went well.
 
+## Day 9

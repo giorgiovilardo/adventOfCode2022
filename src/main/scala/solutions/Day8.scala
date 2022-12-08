@@ -13,9 +13,9 @@ case object Day8 {
   }
 
   def solvePartTwo(i: List[String]): Int = {
-    scenicityPerRow2(toIntInput(i))
+    scenicityPerRow(toIntInput(i))
       .zip(
-        scenicityPerRow2(toIntInput(i.transpose.map(_.mkString))).transpose
+        scenicityPerRow(toIntInput(i.transpose.map(_.mkString))).transpose
       )
       .map(i => i._1.zip(i._2))
       .flatMap(i => i.map(k => k._1 * k._2))
@@ -58,7 +58,7 @@ case object Day8 {
     })
   }
 
-  def scenicityPerRow2(l: List[List[Int]]): List[List[Int]] = {
+  private def scenicityPerRow(l: List[List[Int]]): List[List[Int]] = {
 
     def loupeReducer(t: ListLoupe): Int = {
       final case class Distance(

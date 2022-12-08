@@ -2,8 +2,8 @@ package solutions
 
 import scala.collection.mutable
 
-final case class Move(qty: Int, from: Int, to: Int)
-case object Move {
+private final case class Move(qty: Int, from: Int, to: Int)
+private case object Move {
   def fromString(s: String): Option[Move] = {
     val movePattern = raw"move (\d+) from (\d+) to (\d+)".r
     s match {
@@ -14,7 +14,7 @@ case object Move {
   }
 }
 
-case object InputParser {
+private case object InputParser {
   def getMoveList(i: List[String]): List[Move] =
     i.filter(_.startsWith("move")).flatMap(Move.fromString)
 
@@ -45,7 +45,7 @@ case object InputParser {
   }
 }
 
-case object Gamestate {
+private case object Gamestate {
   type Gamestate = List[mutable.Stack[Char]]
   def moveOneAtATime(g: Gamestate, m: Move): Gamestate = {
     val srcStack = g(m.from - 1)

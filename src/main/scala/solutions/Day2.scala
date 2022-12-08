@@ -7,7 +7,7 @@ sealed trait RPSOutcome {
     case Loss() => 0
   }
 }
-object RPSOutcome {
+private object RPSOutcome {
   def fromString(s: String): Option[RPSOutcome] = s match {
     case "X" => Some(Loss())
     case "Y" => Some(Draw())
@@ -19,7 +19,7 @@ final case class Win() extends RPSOutcome
 final case class Loss() extends RPSOutcome
 final case class Draw() extends RPSOutcome
 
-sealed trait RPSMove {
+private sealed trait RPSMove {
   def toPointValue: Int = this match {
     case Rock() => 1
     case Paper() => 2
@@ -27,7 +27,7 @@ sealed trait RPSMove {
   }
 
 }
-object RPSMove {
+private object RPSMove {
   def fromString(s: String): Option[RPSMove] = s match {
     case "A" | "X" => Some(Rock())
     case "B" | "Y" => Some(Paper())
@@ -61,9 +61,9 @@ object RPSMove {
     }
 }
 
-final case class Rock() extends RPSMove {}
-final case class Paper() extends RPSMove {}
-final case class Scissor() extends RPSMove {}
+private final case class Rock() extends RPSMove {}
+private final case class Paper() extends RPSMove {}
+private final case class Scissor() extends RPSMove {}
 
 final case class Day2() {
   def part1PointsFrom(file: Iterator[String]): Int = {
