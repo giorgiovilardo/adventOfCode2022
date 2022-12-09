@@ -9,12 +9,12 @@ class Day9Suite extends AnyFunSuite {
 
   test("Test implementation of part 1 done") {
     val file = Utils.readFileAsList(testData)
-    assert(Day9.solvePartOne(file) == 1)
+    assert(Day9.solvePartOne(file) == 13)
   }
 
   test("Real implementation of part 1 done") {
     val file = Utils.readFileAsList(realData)
-    assert(Day9.solvePartOne(file) == 1)
+    assert(Day9.solvePartOne(file) == 6522)
   }
 
   test("Test implementation of part 2 done") {
@@ -24,6 +24,6 @@ class Day9Suite extends AnyFunSuite {
 
   test("Real implementation of part 2 done") {
     val file = Utils.readFileAsList(realData)
-    assert(Day9.solvePartTwo(file) == 1)
+    assert(Day9.solvePartTwo(file) == 2717)
   }
 }
