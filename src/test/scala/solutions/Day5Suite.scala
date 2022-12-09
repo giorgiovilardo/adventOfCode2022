@@ -33,15 +33,15 @@ final class MoveSuite extends AnyFunSuite {
   private val badString = "move 12 from a to"
 
   test("Should convert a correct move string") {
-    assert(Move.fromString(correctString).contains(Move(1, 2, 1)))
+    assert(D5Move.fromString(correctString).contains(D5Move(1, 2, 1)))
   }
 
   test("Should convert a correct move string with big numbers") {
-    assert(Move.fromString("move 123 from 34 to 5").contains(Move(123, 34, 5)))
+    assert(D5Move.fromString("move 123 from 34 to 5").contains(D5Move(123, 34, 5)))
   }
 
   test("Should not convert a bad move string") {
-    assert(Move.fromString(badString).isEmpty)
+    assert(D5Move.fromString(badString).isEmpty)
   }
 }
 
@@ -55,9 +55,9 @@ final class InputParserSuite extends AnyFunSuite {
 
   test("Should convert a correct move list") {
     val expected = List(
-      Move(1, 2, 1),
-      Move(121, 4, 7),
-      Move(999, 4, 55)
+      D5Move(1, 2, 1),
+      D5Move(121, 4, 7),
+      D5Move(999, 4, 55)
     )
     assert(InputParser.getMoveList(correctMoveList) == expected)
   }
