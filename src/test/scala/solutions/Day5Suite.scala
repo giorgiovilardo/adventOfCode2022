@@ -37,7 +37,9 @@ final class MoveSuite extends AnyFunSuite {
   }
 
   test("Should convert a correct move string with big numbers") {
-    assert(D5Move.fromString("move 123 from 34 to 5").contains(D5Move(123, 34, 5)))
+    assert(
+      D5Move.fromString("move 123 from 34 to 5").contains(D5Move(123, 34, 5))
+    )
   }
 
   test("Should not convert a bad move string") {

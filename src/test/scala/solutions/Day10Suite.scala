@@ -17,13 +17,27 @@ class Day10Suite extends AnyFunSuite {
     assert(Day10.solvePartOne(file) == 17180)
   }
 
-//  test("Test implementation of part 2 done") {
-//    val file = Utils.readFileAsList(testData)
-//    assert(Day10.solvePartTwo(file) == 1)
-//  }
-//
-//  test("Real implementation of part 2 done") {
-//    val file = Utils.readFileAsList(realData)
-//    assert(Day10.solvePartTwo(file) == 2717)
-//  }
+  test("Test implementation of part 2 done") {
+    val file = Utils.readFileAsList(testData)
+    val expected =
+      """##..##..##..##..##..##..##..##..##..##..
+        |###...###...###...###...###...###...###.
+        |####....####....####....####....####....
+        |#####.....#####.....#####.....#####.....
+        |######......######......######......####
+        |#######.......#######.......#######.....""".stripMargin
+    assert(Day10.solvePartTwo(file) == expected)
+  }
+
+  test("Real implementation of part 2 done") {
+    val file = Utils.readFileAsList(realData)
+    val expected =
+      """###..####.#..#.###..###..#....#..#.###..
+        |#..#.#....#..#.#..#.#..#.#....#..#.#..#.
+        |#..#.###..####.#..#.#..#.#....#..#.###..
+        |###..#....#..#.###..###..#....#..#.#..#.
+        |#.#..#....#..#.#....#.#..#....#..#.#..#.
+        |#..#.####.#..#.#....#..#.####..##..###..""".stripMargin
+    assert(Day10.solvePartTwo(file) == expected)
+  }
 }
