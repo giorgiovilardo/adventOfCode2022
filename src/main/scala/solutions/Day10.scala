@@ -1,24 +1,20 @@
 package solutions
 
-final case class SignalRecorder(step: Int, value: Int)
-final case class SignalAccumulator(total: Int, atPhases: Int)
+private final case class SignalRecorder(step: Int, value: Int)
+private final case class SignalAccumulator(total: Int, atPhases: Int)
+private object SignalAccumulator {
+  def zero: SignalAccumulator = SignalAccumulator(1, 0)
+}
 
 case object Day10 {
   def solvePartOne(i: List[String]): Int = {
-    injectNoOps(i).reverse.zipWithIndex
-      .foldLeft(List(): List[SignalRecorder])((acc, v) => {
-        v match {
-          case (s"addx $n", i) => SignalRecorder(i + 1, n.toInt) :: acc
-          case (_, i) => SignalRecorder(i + 1, 0) :: acc
-        }
-      })
-      .reverse
-      .foldLeft(SignalAccumulator(1, 0))((acc, v) => {
-        v match {
-          case SignalRecorder(idx, value) if isInteresting(idx) =>
+    prepareInput(i)
+      .foldLeft(SignalAccumulator.zero)((acc, signal) => {
+        signal match {
+          case SignalRecorder(phase, value) if `isPhaseInteresting?`(phase) =>
             acc.copy(
               total = acc.total + value,
-              atPhases = acc.atPhases + (idx * acc.total)
+              atPhases = acc.atPhases + (phase * acc.total)
             )
           case SignalRecorder(_, value) => acc.copy(total = acc.total + value)
         }
@@ -27,58 +23,58 @@ case object Day10 {
   }
 
   def solvePartTwo(i: List[String]): String = {
-    val grid = new Grid()
-    injectNoOps(i).reverse.zipWithIndex
-      .foldLeft(List(): List[SignalRecorder])((acc, v) => {
-        v match {
-          case (s"addx $n", i) => SignalRecorder(i + 1, n.toInt) :: acc
-          case (_, i) => SignalRecorder(i + 1, 0) :: acc
+    val grid = Grid.empty
+    prepareInput(i).foldLeft(grid)(_.update(_)).toString
+  }
+
+  private def prepareInput(i: List[String]): List[SignalRecorder] = {
+    def injectNoOps(l: List[String]): Vector[(String, Int)] =
+      l.foldLeft(Vector(): Vector[String])((commands, inputLine) => {
+        inputLine match {
+          case inputLine if inputLine.startsWith("addx") =>
+            commands.appended("noop").appended(inputLine)
+          case _ => commands.appended(inputLine)
+        }
+      }).zipWithIndex
+
+    injectNoOps(i)
+      .foldLeft(Vector(): Vector[SignalRecorder])((commands, inputLine) => {
+        inputLine match {
+          case (s"addx $n", index) =>
+            commands.appended(SignalRecorder(index + 1, n.toInt))
+          case (_, index) => commands.appended(SignalRecorder(index + 1, 0))
         }
       })
-      .reverse
-      .foldLeft(grid)((acc, v) => {
-        acc.update(v)
-      })
-      .toString
+      .toList
   }
 
-  private def injectNoOps(i: List[String]): List[String] = {
-    i.foldLeft(List(): List[String])((acc, v) => {
-      v match {
-        case s if s.startsWith("addx") => s :: "noop" :: acc
-        case s => s :: acc
-      }
-    })
-  }
-
-  private def isInteresting(i: Int): Boolean =
+  private def `isPhaseInteresting?`(i: Int): Boolean =
     i match {
       case 20 | 60 | 100 | 140 | 180 | 220 => true
       case _ => false
     }
 }
 
-private class Grid {
-  private val cells: Array[Array[Char]] =
-    Array.ofDim[Char](6, 40).map(_.map(_ => '.'))
-  private var cursor = 1
+final case class Grid(cells: Array[Array[Char]], cursor: Int) {
   def update(s: SignalRecorder): Grid = {
     val SignalRecorder(phase, value) = s
-    val currentlyDrawRow = (phase - 1) / 40
     val currentlyDrawCell = (phase - 1) % 40
-    val correctRow = cells(currentlyDrawRow)
-    val spriteCoverageOnIndexes = correctRow.zipWithIndex
+    val currentlyDrawRow = cells((phase - 1) / 40)
+    val spriteCoverageOnIndexes = currentlyDrawRow.zipWithIndex
       .slice(
         cursor - 1,
         cursor + 2
       )
       .map(_._2)
     if (spriteCoverageOnIndexes.indexOf(currentlyDrawCell) != -1)
-      correctRow(currentlyDrawCell) = '#'
-    cursor += value
-    this
+      currentlyDrawRow(currentlyDrawCell) = '#'
+    Grid(cells, cursor + value)
   }
 
   override def toString: String =
     cells.map(_.mkString).mkString("\n")
+}
+
+object Grid {
+  def empty: Grid = Grid(Array.ofDim[Char](6, 40).map(_.map(_ => '.')), 1)
 }
